@@ -21,7 +21,6 @@ class LearningAgent(Agent):
 
         # Set any additional class parameters as needed
 
-
     def reset(self, destination=None, testing=False):
         """ The reset function is called at the beginning of each trial.
             'testing' is set to True if testing trials are being used
@@ -29,7 +28,7 @@ class LearningAgent(Agent):
 
         # Select the destination as the new location to route to
         self.planner.route_to(destination)
-        
+
         # Update epsilon using a decay function of your choice
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0        
@@ -37,7 +36,8 @@ class LearningAgent(Agent):
             self.epsilon = 0.0
             self.alpha = 0.0
         else:
-            self.epsilon -= 0.05
+            self.epsilon -= 0.008
+            self.alpha *= 0.99
 
         return None
 
@@ -158,7 +158,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, alpha=0.5, epsilon=1.0)
+    agent = env.create_agent(LearningAgent, learning=True, alpha=0.8, epsilon=1.0)
     
     ##############
     # Follow the driving agent
