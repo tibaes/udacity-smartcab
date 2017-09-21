@@ -67,17 +67,21 @@ class LearningAgent(Agent):
             maximum Q-value of all actions based on the 'state' the smartcab is in. """
 
         # Calculate the maximum Q-value of all actions for a given state
-        maxQ = None
-        maxValue = 0.0
+        maxValue = 0.
+        bestActions = []
         if  state in self.Q:
             for key in self.Q[state]:
                 if self.Q[state][key] > maxValue:
-                    maxQ = key
+                    bestActions = [key]
                     maxValue = self.Q[state][key]
-                elif self.Q[state][key] == maxValue and random.randint(0,1) == 1:
-                    maxQ = key
+                elif self.Q[state][key] == maxValue:
+                    bestActions.append(key)
 
-        return maxQ 
+        maxQ = None
+        if bestActions.count > 0:
+            maxQ = bestActions[random.randint(0, bestActions.count - 1)]
+
+        return maxQ
 
 
     def createQ(self, state):
