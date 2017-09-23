@@ -79,7 +79,7 @@ class LearningAgent(Agent):
 
         maxQ = None
         if bestActions.count > 0:
-            maxQ = bestActions[random.randint(0, bestActions.count - 1)]
+            maxQ = random.choice(bestActions)
 
         return maxQ
 
@@ -109,10 +109,9 @@ class LearningAgent(Agent):
         # When learning, choose a random action with 'epsilon' probability
         # Otherwise, choose an action with the highest Q-value for the current state
         # Be sure that when choosing an action with highest Q-value that you randomly select between actions that "tie".
-        if self.learning == False:
-            action = self.valid_actions[random.randint(0,3)]
+        if self.learning == False or self.epsilon > random.random():
+            action = random.choice(self.valid_actions)
         else:
-            # TODO
             action = self.get_maxQ(state)
 
         return action
