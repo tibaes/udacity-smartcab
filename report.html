@@ -19060,7 +19060,7 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 <li>None : -4.14</li>
 </ul>
 </li>
-<li><p>ok* ('right', 'green', 'right') -&gt; right</p>
+<li><p>ok ('right', 'green', 'right') -&gt; right</p>
 <ul>
 <li>forward : 0.69</li>
 <li>left : 0.72</li>
@@ -19076,7 +19076,7 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 <li>None : -4.97</li>
 </ul>
 </li>
-<li><p>ok* ('left', 'green', 'right') -&gt; left</p>
+<li><p>FAIL ('left', 'green', 'right') -&gt; left</p>
 <ul>
 <li>forward : 1.04</li>
 <li><strong>left : 1.12</strong></li>
@@ -19108,7 +19108,7 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 <li>None : -4.55</li>
 </ul>
 </li>
-<li><p>ok* ('forward', 'green', 'right') -&gt; forward</p>
+<li><p>ok ('forward', 'green', 'right') -&gt; forward</p>
 <ul>
 <li><strong>forward : 2.13</strong></li>
 <li>left : 0.34</li>
@@ -19148,7 +19148,6 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 <li>None : -5.51</li>
 </ul>
 </li>
-<li>*Despite the crossing paths, One could argue that the smart cab agent has priority to go forward or right.</li>
 </ul>
 </li>
 </ul>
@@ -19178,11 +19177,18 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 <li>None : 0.83</li>
 </ul>
 </li>
-<li>FAIL ('left', 'green', 'forward') -&gt; left: There are similar situations where the agent could move as it has the preference on the lane. For this particular situation, I believe that the agent don't have preference to cross, so the safest action would be 'none'. As mentioned earlier, this behavior is due the act() function that assumes safety to turn left, no matter the oncoming.<ul>
+<li>FAIL ('left', 'green', 'forward') -&gt; left: There are similar situations where the agent could move as it has the preference on the lane. For this particular situation, the agent doesn't have preference to cross, so the safest action would be 'none'. As mentioned earlier, this behavior is due the act() function that assumes safety to turn left, no matter the oncoming.<ul>
 <li>forward : 1.14</li>
 <li><strong>left : 2.02</strong></li>
 <li>right : 1.31</li>
 <li>None : -4.14</li>
+</ul>
+</li>
+<li>FAIL* ('left', 'green', 'right') -&gt; left: same as above.<ul>
+<li>forward : 1.04</li>
+<li><strong>left : 1.12</strong></li>
+<li>right : 0.78</li>
+<li>None : 0.00</li>
 </ul>
 </li>
 </ul>
