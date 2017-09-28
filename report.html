@@ -14740,7 +14740,7 @@ The Smartcab does not move at all. It receives positive rewards on red light; an
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <ul>
-<li>agent.py: grid_size affects the size of the simulated world, and therefore the amount of possible states; num_dummies is the amount of agents in the world, with more agents it is harder to achieve the goal in the desired deadline; learning is a boolean to determine when to use the Q-Learning algorithm.</li>
+<li>agent.py: grid_size affects the size of the simulated world; num_dummies is the amount of agents in the world, with more agents it is harder to achieve the goal in the desired deadline; learning is a boolean to determine when to use the Q-Learning algorithm.</li>
 <li>environment.py: it is the "def act(self, agent, action)", which is responsible for computing the rewards based on traffic violations and deadlines, and also responsible for actually moving the agents, i.e. updating their locations.</li>
 <li>simulator.py: the render_text() writes the simulation information in the console using only text, while the render() draws the entire environment using pygame (when available).</li>
 <li>planner.py: it considers East-West first, because it evaluates "elif dx != 0:" earlier than "elif dy != 0:".</li>
@@ -15951,7 +15951,7 @@ M6uS/w8OGlBzdKoA/wAAAABJRU5ErkJggg==
 </ul>
 <h5 id="Discarted-features:">Discarted features:<a class="anchor-link" href="#Discarted-features:">&#182;</a></h5><ul>
 <li>left, right: the actions of vehicles on his left or right should not impact its own actions (I am assuming we are not dealing with defensive driving, where we need to take care of stupid people around us!). As it was pointed to me, the US traffic laws allows a car to turn right on red if there is no traffic from left. However, this rule is too specific and will increase the state size by 4 times. For simplicity, I will keep this feature out.</li>
-<li>deadline: The knowledge of the deadline would only serve to increase the risks of commiting a traffic violation in favor of efficiency. I believe that the optimal policy should be getting in time with safety in mind, so it would be better to hide the deadline and let the policy be just try to get as fast as possible with the risks minimized.</li>
+<li>deadline: The knowledge of the deadline would only serve to increase the risks of commiting a traffic violation in favor of efficiency. I believe that the optimal policy should be getting in time with safety in mind, so it would be better to hide the deadline and let the policy be just try to get as fast as possible with the risks minimized. Also, this feature has a lot of possible values, which would turn the state space huge and make it hard for the agent to learn the policy.</li>
 </ul>
 
 </div>
@@ -18947,7 +18947,8 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong> The optimal policy is pretty simple and could be hard coded with low effort; obviously this was not an option. First, for safety, on red light the optimal is always 'None'. Given a green light, again for safety, the optimal is 'None' when oncoming crosses the waypoint; i.e. waypoint is forward or right and oncoming is right; or waypoint is left and oncoming isn't None. However, also on green light, if the oncoming and waypoint doesn't crosses, the optimal is to follow waypoint, as it gives the shortest path and better reliability. The best solution ever would find the best moment to make a conversion, minimizing conversions to waste less time, but this is more heuristics / hard coding alike, which and is not our objetive in this study.</p>
+<p><strong>Answer:</strong> The optimal policy is pretty simple and could be hard coded with low effort; obviously this was not an option. As I chose to exclude the feature 'left', for safety, on red light the optimal is always 'None'.</p>
+<p>Given a green light, if the 'waypoint' is straight ahead or to the right, the optimal is to follow waypoint. When waypoint is to the left, the agent must follow waypoint if there is no conflict with oncoming, i.e. oncoming should be none or left (assuming that both cars turning left is safe). However, in the last review it was pointed that the act() function from environment.py of my current framework code is from an older version, and it assumes that is always safe to turn left (the agent waits for the oncoming car and then turn left). In this framework the oncoming feature could be completely ignored, and the agent could always follow waypoint on green light.</p>
 <ul>
 <li><p>Red Light</p>
 <ul>
@@ -19177,7 +19178,7 @@ With this $\alpha$ function the lerning rate is reduced for the last training tr
 <li>None : 0.83</li>
 </ul>
 </li>
-<li>FAIL ('left', 'green', 'forward') -&gt; left: There are similar situations where the agent could move as it has the preference on the lane. For this particular situation, I believe that the agent don't have preference to cross, so the safest action would be 'none'.<ul>
+<li>FAIL ('left', 'green', 'forward') -&gt; left: There are similar situations where the agent could move as it has the preference on the lane. For this particular situation, I believe that the agent don't have preference to cross, so the safest action would be 'none'. As mentioned earlier, this behavior is due the act() function that assumes safety to turn left, no matter the oncoming.<ul>
 <li>forward : 1.14</li>
 <li><strong>left : 2.02</strong></li>
 <li>right : 1.31</li>
